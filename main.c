@@ -13,7 +13,8 @@ static void activate (GtkApplication* app, gpointer user_data) {
 }
 
 int main (int argc, char **argv) {
-    
+  
+  //variables  
   GtkApplication *app;
   int status;
 
