@@ -1,5 +1,11 @@
 #include <gtk/gtk.h>
 
+typedef struct {
+    
+    GtkWidget *window;
+    
+} App;
+
     
 static void activate (GtkApplication* app, gpointer user_data) {
     
@@ -15,14 +21,29 @@ static void activate (GtkApplication* app, gpointer user_data) {
 int main (int argc, char **argv) {
   
   //variables  
-  GtkApplication *app;
-  int status;
+  App *calculator;
+  GtkBuilder *calcBuilder;
+  
+  calculator = g_slice_new(App);
 
-  app = gtk_application_new ("cz.team_Blaze_IT.Calculator", G_APPLICATION_FLAGS_NONE);
-  g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
-  status = g_application_run (G_APPLICATION (app), argc, argv);
-  g_object_unref (app);
+  gtk_init (&argc, &argv);
+  
+  calcBuilder = gtk_builder_new_from_file("interface.glade");
+  
+  calculator->window = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "window_main"));
+  
+  gtk_builder_connect_signals (calcBuilder, calculator);
 
-  return status;
+  g_object_unref (G_OBJECT (calcBuilder));
+    
+  g_signal_connect (calculator->window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+        
+  gtk_widget_show (calculator->window);                
+
+	//hlavni smycka gtk
+  gtk_main ();
+
+
+  return 0;
     
 }
