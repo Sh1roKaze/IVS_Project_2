@@ -2,21 +2,11 @@
 
 typedef struct {
     
-    GtkWidget *window;
+    GtkWidget *window_main;
+    GtkButton *button0;
     
 } App;
 
-    
-static void activate (GtkApplication* app, gpointer user_data) {
-    
-  GtkWidget *window_main;
-
-  window_main = gtk_application_window_new (app);
-  gtk_window_set_title (GTK_WINDOW (window_main), "Calculator");
-  gtk_window_set_default_size (GTK_WINDOW (window_main), 200, 200);
-  gtk_widget_show_all (window_main);
-  
-}
 
 int main (int argc, char **argv) {
   
@@ -34,7 +24,9 @@ int main (int argc, char **argv) {
   calcBuilder = gtk_builder_new_from_file("interface.glade");
   
   //link the window_main in builder to calculator->window
-  calculator->window = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "window_main"));
+  calculator->window_main = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "window_main"));
+  
+  calculator->button0 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button0"));
   
   //connects signals
   gtk_builder_connect_signals (calcBuilder, calculator);
@@ -43,10 +35,11 @@ int main (int argc, char **argv) {
   g_object_unref (G_OBJECT (calcBuilder));
   
   //connects signal for destruction with window  
-  g_signal_connect (calculator->window, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect (calculator->window_main, "destroy", G_CALLBACK (gtk_main_quit), NULL);
+  g_signal_connect (calculator->button0, "clicked", G_CALLBACK (gtk_main_quit), NULL);
         
   //bring window into spotlight
-  gtk_widget_show (calculator->window);                
+  gtk_widget_show (calculator->window_main);                
 
   //main gtk loop
   gtk_main ();
