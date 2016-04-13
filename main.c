@@ -1,9 +1,13 @@
 #include <gtk/gtk.h>
+#include <stdlib.h>
+#include <string.h>
+#include <limits.h>
 
 typedef struct {
     
     GtkWidget *window_main;
     GtkTextBuffer *textbuffer;
+    GtkTextView *textview;
     GtkButton *button0;
     GtkButton *button1;
     GtkButton *button2;
@@ -25,14 +29,200 @@ typedef struct {
     GtkButton *buttonCE;
     GtkButton *buttonC;
     
-} App;
+} App;   
 
+
+typedef struct {
+    
+    char first[21];
+    char operator[2];
+    char second[21];
+    char result[21];
+    
+  } magic_struct;
+
+  
+App *calculator;
+magic_struct textStruct;
+
+
+#define APPEND(textStruct, value) { \
+    if (strlen(textStruct.result) > 0) { \
+        memset(textStruct.first, 0, sizeof(char)); \
+        memset(textStruct.second, 0, sizeof(char)); \
+        memset(textStruct.operator, 0, sizeof(char)); \
+        memset(textStruct.result, 0, sizeof(char)); \
+    } \
+    if (strlen(textStruct.operator) == 0) { \
+        if (strlen(textStruct.first) < 21) \
+            strcat(textStruct.first, value); \
+    } else { \
+        if (strlen(textStruct.second) < 21) \
+        strcat(textStruct.second, value); \
+    }\
+}
+
+void to_s (magic_struct textStruct, char *my_string) { 
+    if (strlen(textStruct.result) ==  0) { 
+        if (strlen(textStruct.operator) == 0) { 
+            strcat(my_string, "\n"); 
+            strcat(my_string, textStruct.first); 
+        } else { 
+            strcat(my_string, textStruct.first); 
+            strcat(my_string, " "); 
+            strcat(my_string, textStruct.operator);
+            strcat(my_string, "\n"); 
+            strcat(my_string, textStruct.second); 
+        }
+    } else {
+        strcat(my_string, textStruct.first); 
+        strcat(my_string, " "); 
+        strcat(my_string, textStruct.operator);
+        strcat(my_string, " "); 
+        strcat(my_string, textStruct.second); 
+        strcat(my_string, "\n"); 
+        strcat(my_string, textStruct.result); 
+    }
+}
+
+  
+  
 void button0_onclick() {
     
-    FILE *output;
+    char my_string[50];
+        
+    APPEND(textStruct,"0")
     
-    output = fopen("button0","w");
-    fclose(output);
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
+    
+}
+
+void button1_onclick() {
+    
+    char my_string[50];
+        
+    APPEND(textStruct,"1")
+    
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
+    
+}
+
+void button2_onclick() {
+    
+
+   
+}
+
+void button3_onclick() {
+
+
+    
+}
+
+void button4_onclick() {
+    
+    
+}
+
+void button5_onclick() {
+    
+
+    
+}
+
+void button6_onclick() {
+    
+
+    
+}
+
+void button7_onclick() {
+    
+  
+}
+
+void button8_onclick() {
+    
+
+    
+}
+
+void button9_onclick() {
+    
+    
+}
+
+void buttonDot_onclick() {
+
+    char my_string[50];
+        
+    APPEND(textStruct,".")
+    
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
+    
+}
+
+void buttonEqual_onclick() {
+    
+    char rest[21];
+    
+    double first = strtod(textStruct.first,rest);
+    
+    printf("%f",first);
+}
+
+void buttonPlus_onclick() {
+
+    char my_string[50];
+    
+    strcat(textStruct.operator, "+");
+    
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
+    
+}
+
+void buttonMinus_onclick() {
+    
+    
+}
+
+void buttonMultiply_onclick() {
+    
+    
+}
+
+void buttonDivide_onclick() {
+    
+    
+}
+
+void buttonPower_onclick() {
+    
+    
+}
+
+void buttonFactorial_onclick() {
+
+    
+    
+}
+
+void buttonCE_onclick() {
+    
+    
+}
+
+void buttonC_onclick() {
+    
+    
     
 }
 
@@ -40,7 +230,7 @@ void button0_onclick() {
 int main (int argc, char **argv) {
   
   //variables  
-  App *calculator;
+  
   GtkBuilder *calcBuilder;
   
   //allocates mem for an App
@@ -54,27 +244,29 @@ int main (int argc, char **argv) {
   
   //link the objects created by builder to the "calculator" structure
   calculator->window_main = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "window_main"));
-  calculator->button0 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button0"));
-  calculator->button1 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button1"));
-  calculator->button2 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button2"));
-  calculator->button3 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button3"));
-  calculator->button4 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button4"));
-  calculator->button5 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button5"));
-  calculator->button6 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button6"));
-  calculator->button7 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button7"));
-  calculator->button8 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button8"));
-  calculator->button9 = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "button9"));
+  calculator->textbuffer = GTK_TEXT_BUFFER(gtk_builder_get_object (calcBuilder, "textbuffer"));
   
-  calculator->buttonDot = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonDot"));
-  calculator->buttonEqual = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonEqual"));
-  calculator->buttonPlus = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonPlus"));
-  calculator->buttonMinus = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonMinus"));
-  calculator->buttonMultiply = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonMultiply"));
-  calculator->buttonDivide = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonDivide"));
-  calculator->buttonPower = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonPower"));
-  calculator->buttonFactorial = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonFactorial"));
-  calculator->buttonCE = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonCE"));
-  calculator->buttonC = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "buttonC"));
+  calculator->button0 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button0"));
+  calculator->button1 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button1"));
+  calculator->button2 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button2"));
+  calculator->button3 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button3"));
+  calculator->button4 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button4"));
+  calculator->button5 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button5"));
+  calculator->button6 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button6"));
+  calculator->button7 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button7"));
+  calculator->button8 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button8"));
+  calculator->button9 = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "button9"));
+  
+  calculator->buttonDot = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonDot"));
+  calculator->buttonEqual = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonEqual"));
+  calculator->buttonPlus = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonPlus"));
+  calculator->buttonMinus = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonMinus"));
+  calculator->buttonMultiply = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonMultiply"));
+  calculator->buttonDivide = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonDivide"));
+  calculator->buttonPower = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonPower"));
+  calculator->buttonFactorial = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonFactorial"));
+  calculator->buttonCE = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonCE"));
+  calculator->buttonC = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonC"));
   
   //connects signals
   gtk_builder_connect_signals (calcBuilder, calculator);
@@ -83,9 +275,34 @@ int main (int argc, char **argv) {
   g_object_unref (G_OBJECT (calcBuilder));
   
   //connects signal for destruction with window  
-  g_signal_connect (calculator->window_main, "destroy", G_CALLBACK (gtk_main_quit), NULL);
-  g_signal_connect (calculator->button0, "clicked", G_CALLBACK (button0_onclick), NULL);
-        
+  g_signal_connect(calculator->window_main, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+  
+  //void *ptr = &textStruct;
+  
+  g_signal_connect(calculator->button0, "clicked", G_CALLBACK(button0_onclick), NULL);
+  g_signal_connect(calculator->button1, "clicked", G_CALLBACK(button1_onclick), NULL);
+  g_signal_connect(calculator->button2, "clicked", G_CALLBACK(button2_onclick), NULL);
+  g_signal_connect(calculator->button3, "clicked", G_CALLBACK(button3_onclick), NULL);
+  g_signal_connect(calculator->button4, "clicked", G_CALLBACK(button4_onclick), NULL);
+  g_signal_connect(calculator->button5, "clicked", G_CALLBACK(button5_onclick), NULL);
+  g_signal_connect(calculator->button6, "clicked", G_CALLBACK(button6_onclick), NULL);
+  g_signal_connect(calculator->button7, "clicked", G_CALLBACK(button7_onclick), NULL);
+  g_signal_connect(calculator->button8, "clicked", G_CALLBACK(button8_onclick), NULL);
+  g_signal_connect(calculator->button9, "clicked", G_CALLBACK(button9_onclick), NULL);
+  
+  g_signal_connect(calculator->buttonDot, "clicked", G_CALLBACK(buttonDot_onclick), NULL);
+  g_signal_connect(calculator->buttonEqual, "clicked", G_CALLBACK(buttonEqual_onclick), NULL);
+  g_signal_connect(calculator->buttonPlus, "clicked", G_CALLBACK(buttonPlus_onclick), NULL);
+  g_signal_connect(calculator->buttonMinus, "clicked", G_CALLBACK(buttonMinus_onclick), NULL);
+  g_signal_connect(calculator->buttonMultiply, "clicked", G_CALLBACK(buttonMultiply_onclick), NULL);
+  g_signal_connect(calculator->buttonDivide, "clicked", G_CALLBACK(buttonDivide_onclick), NULL);
+  g_signal_connect(calculator->buttonPower, "clicked", G_CALLBACK(buttonPower_onclick), NULL);
+  g_signal_connect(calculator->buttonFactorial, "clicked", G_CALLBACK(buttonFactorial_onclick), NULL);
+  g_signal_connect(calculator->buttonCE, "clicked", G_CALLBACK(buttonCE_onclick), NULL);
+  g_signal_connect(calculator->buttonC, "clicked", G_CALLBACK(buttonC_onclick), NULL);
+  
+  gtk_text_buffer_set_text (calculator->textbuffer, "\n", -1);
+  
   //bring window into spotlight
   gtk_widget_show (calculator->window_main);                
 
