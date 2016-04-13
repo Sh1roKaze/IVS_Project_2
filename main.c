@@ -41,13 +41,14 @@ typedef struct {
     
   } magic_struct;
 
-  
+/* Magic variables */  
 App *calculator;
 magic_struct textStruct;
 
 
 #define APPEND(textStruct, value) { \
     if (strlen(textStruct.result) > 0) { \
+        /*clears textStruct */ \
         memset(textStruct.first, 0, sizeof(char)); \
         memset(textStruct.second, 0, sizeof(char)); \
         memset(textStruct.operator, 0, sizeof(char)); \
@@ -85,86 +86,73 @@ void to_s (magic_struct textStruct, char *my_string) {
     }
 }
 
+
+void b_num_on_click(char *value) {
+    
+    char my_string[50];
+        
+    APPEND(textStruct, value)
+    
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
+    
+}
   
   
 void button0_onclick() {
     
-    char my_string[50];
-        
-    APPEND(textStruct,"0")
-    
-    to_s(textStruct, my_string);
-    
-    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
-    
+    b_num_on_click("0");
 }
 
 void button1_onclick() {
     
-    char my_string[50];
-        
-    APPEND(textStruct,"1")
-    
-    to_s(textStruct, my_string);
-    
-    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
-    
+    b_num_on_click("1");
 }
 
 void button2_onclick() {
     
-
-   
+    b_num_on_click("2");
 }
 
 void button3_onclick() {
 
-
-    
+    b_num_on_click("3");    
 }
 
 void button4_onclick() {
     
-    
+    b_num_on_click("4");
 }
 
 void button5_onclick() {
     
-
-    
+    b_num_on_click("5");
 }
 
 void button6_onclick() {
     
-
-    
+    b_num_on_click("6");
 }
 
 void button7_onclick() {
     
-  
+    b_num_on_click("7");
 }
 
 void button8_onclick() {
     
-
-    
+    b_num_on_click("8");
 }
 
 void button9_onclick() {
     
-    
+    b_num_on_click("9");
 }
 
 void buttonDot_onclick() {
 
-    char my_string[50];
-        
-    APPEND(textStruct,".")
-    
-    to_s(textStruct, my_string);
-    
-    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
+    b_num_on_click(".");   
     
 }
 
@@ -174,7 +162,6 @@ void buttonEqual_onclick() {
     
     double first = strtod(textStruct.first,rest);
     
-    printf("%f",first);
 }
 
 void buttonPlus_onclick() {
@@ -277,8 +264,6 @@ int main (int argc, char **argv) {
   //connects signal for destruction with window  
   g_signal_connect(calculator->window_main, "destroy", G_CALLBACK(gtk_main_quit), NULL);
   
-  //void *ptr = &textStruct;
-  
   g_signal_connect(calculator->button0, "clicked", G_CALLBACK(button0_onclick), NULL);
   g_signal_connect(calculator->button1, "clicked", G_CALLBACK(button1_onclick), NULL);
   g_signal_connect(calculator->button2, "clicked", G_CALLBACK(button2_onclick), NULL);
@@ -308,7 +293,6 @@ int main (int argc, char **argv) {
 
   //main gtk loop
   gtk_main ();
-
 
   return 0;
     
