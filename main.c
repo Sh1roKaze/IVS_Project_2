@@ -34,12 +34,12 @@ typedef struct {
 
 typedef struct {
     
-    char first[21];
+    char first[42];
     char operator[2];
-    char second[21];
-    char result[21];
+    char second[42];
+    char result[42];
     
-  } magic_struct;
+} magic_struct;
 
 /* Magic variables */  
 App *calculator;
@@ -89,16 +89,95 @@ void to_s (magic_struct textStruct, char *my_string) {
 
 void b_num_on_click(char *value) {
     
-    char my_string[50];
+    char my_string[128];
+    memset(my_string, 0, sizeof(char));
         
     APPEND(textStruct, value)
     
     to_s(textStruct, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
+} 
+
+double struct_eval () {
     
+    char rest[42];
+    double result;
+    
+    void *ptr = &rest;
+                
+    double first = strtod(textStruct.first, ptr);
+    double second = strtod(textStruct.second, ptr);
+    
+    switch ( (int) textStruct.operator[0]) {
+        
+        case 43:
+            result = first + second;            
+            break;
+            
+        case 45:
+            result = first - second;
+            break;
+            
+        case 42:
+            result = first * second;
+            break;
+            
+        case 47:
+            result = first / second;
+            break;
+            
+        case 94:
+            result = first;
+            for (int i = (int) second; i>1; i--) {
+                result = result * first;
+            }
+            break;            
+            
+        default:
+            result = 0;
+            break;  
+        
+    }
+                
+    return result; 
 }
-  
+
+
+void b_oper_on_click(char *value) {
+    
+    char my_string[124];
+    memset(my_string, 0, sizeof(char));
+    if (strlen(textStruct.first) != 0) {
+        if (strlen(textStruct.operator) == 0) {
+            
+            strcat(textStruct.operator, value);
+            
+            to_s(textStruct, my_string);
+
+            gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
+            
+        } else {
+            if (strlen(textStruct.second) > 0) {
+                
+                double result = struct_eval(value);
+                
+                memset(textStruct.first, 0, sizeof(char));
+                memset(textStruct.second, 0, sizeof(char)); 
+                memset(textStruct.operator, 0, sizeof(char)); 
+                memset(textStruct.result, 0, sizeof(char));
+                
+                sprintf(textStruct.first,"%f",result);
+                
+                strcat(textStruct.operator, value);
+    
+                to_s(textStruct, my_string);
+    
+                gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);                
+            }
+        }
+    }
+}
   
 void button0_onclick() {
     
@@ -153,47 +232,45 @@ void button9_onclick() {
 void buttonDot_onclick() {
 
     b_num_on_click(".");   
-    
 }
 
 void buttonEqual_onclick() {
     
-    char rest[21];
-    
-    double first = strtod(textStruct.first,rest);
-    
-}
-
-void buttonPlus_onclick() {
-
-    char my_string[50];
-    
-    strcat(textStruct.operator, "+");
+    char my_string[124];
+    memset(my_string, 0, sizeof(char));
+                
+    double result = struct_eval();
+                
+    sprintf(textStruct.result,"%f",result);
     
     to_s(textStruct, my_string);
     
-    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);  
+}
+
+void buttonPlus_onclick() {
     
+    b_oper_on_click("+"); 
 }
 
 void buttonMinus_onclick() {
     
-    
+    b_oper_on_click("-");  
 }
 
 void buttonMultiply_onclick() {
     
-    
+    b_oper_on_click("*");    
 }
 
 void buttonDivide_onclick() {
     
-    
+    b_oper_on_click("/"); 
 }
 
 void buttonPower_onclick() {
     
-    
+    b_oper_on_click("^"); 
 }
 
 void buttonFactorial_onclick() {
@@ -209,15 +286,23 @@ void buttonCE_onclick() {
 
 void buttonC_onclick() {
     
+    char my_string[124];
+    memset(my_string, 0, sizeof(char));
     
+    memset(textStruct.first, 0, sizeof(char)); 
+    memset(textStruct.second, 0, sizeof(char)); 
+    memset(textStruct.operator, 0, sizeof(char)); 
+    memset(textStruct.result, 0, sizeof(char));    
     
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
 
 
 int main (int argc, char **argv) {
   
   //variables  
-  
   GtkBuilder *calcBuilder;
   
   //allocates mem for an App
@@ -261,7 +346,7 @@ int main (int argc, char **argv) {
   //frees calcBuilder
   g_object_unref (G_OBJECT (calcBuilder));
   
-  //connects signal for destruction with window  
+  //connects signal for destruction with window_main  
   g_signal_connect(calculator->window_main, "destroy", G_CALLBACK(gtk_main_quit), NULL);
   
   g_signal_connect(calculator->button0, "clicked", G_CALLBACK(button0_onclick), NULL);
