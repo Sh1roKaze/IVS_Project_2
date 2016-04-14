@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
     printf("%%TEST_FINISHED%% time=0 testLib_exp2 (tests_math)\n");
     
     printf("%%TEST_STARTED%%  testLib_exp3 (tests_math)\n");
-    testLib_exp(-5,4,625);
+    testLib_exp(-9999999,100,LDBL_MAX);
     printf("%%TEST_FINISHED%% time=0 testLib_exp3 (tests_math)\n");
     
     
@@ -117,7 +117,7 @@ int main(int argc, char** argv) {
     printf("%%TEST_FINISHED%% time=0 testLib_factorial2 (tests_math)\n");
     
     printf("%%TEST_STARTED%%  testLib_factorial3 (tests_math)\n");
-    testLib_factorial(1,1);
+    testLib_factorial(1550,LDBL_MAX);
     printf("%%TEST_FINISHED%% time=0 testLib_factorial3 (tests_math)\n");
 
     
@@ -130,7 +130,7 @@ int main(int argc, char** argv) {
     printf("%%TEST_FINISHED%% time=0 testLib_mull2 (tests_math)\n");
     
     printf("%%TEST_STARTED%%  testLib_mull3 (tests_math)\n");
-    testLib_mull(5.1,1,5.1);
+    testLib_mull(99999999999,1000000000000,LDBL_MAX);
     printf("%%TEST_FINISHED%% time=0 testLib_mull3 (tests_math)\n");
 
     
