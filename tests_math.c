@@ -1,8 +1,8 @@
 /*
  * File:   tests_math.c
- * Author: xosker02
+ * Author: Jan Oškera
  *
- * Netbean tests CUnit test
+ * Netbean simple tests
  * Created on 13.4.2016, 22:17:28
  */
 

@@ -1,6 +1,6 @@
 /*
  * File:   tests_math.c
- * Author: xosker02
+ * Author: Jan Oškera
  *
  * Created on 13.4.2016, 22:17:28
  */
