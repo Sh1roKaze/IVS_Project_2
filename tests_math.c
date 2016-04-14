@@ -2,12 +2,13 @@
  * File:   tests_math.c
  * Author: Jan Oškera
  *
- * Netbean simple tests
+ * Netbean tests CUnit test
  * Created on 13.4.2016, 22:17:28
  */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 
 /*
  * Simple C Test Suite
@@ -90,7 +91,7 @@ int main(int argc, char** argv) {
     printf("%%TEST_FINISHED%% time=0 testLib_divide2 (tests_math)\n");
     
     printf("%%TEST_STARTED%%  testLib_divide3 (tests_math)\n");
-    testLib_divide(6,0,0);
+    testLib_divide(6,0,LDBL_MAX);
     printf("%%TEST_FINISHED%% time=0 testLib_divide3 (tests_math)\n");
     
     
