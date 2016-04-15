@@ -117,15 +117,15 @@ double struct_eval () {
             break;
             
         case 45:
-            result = lib_subb(first, second);
+            result = lib_sub(first, second);
             break;
             
         case 42:
-            result = lib_mull(first, second);
+            result = lib_mul(first, second);
             break;
             
         case 47:
-            result = lib_divide(first, second);
+            result = lib_div(first, second);
             break;
             
         case 94:
