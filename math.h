@@ -14,56 +14,56 @@
 
 /**
 * The function sums two numbers
-* @param a {first long double value}
-* @param b {second long double value}
-* @post If overflow return LDBL_MAX from <float.h>
-* @return a+b {long double value}
+* @param a {first double value}
+* @param b {second double value}
+* @post If overflow return DBL_MAX from <float.h>
+* @return a+b {double value}
 **/
-long double lib_sum (long double a,long double b);
+double lib_sum (double a,double b);
 
 /**
 * The function subtracts two numbers
-* @param a {first long double value}
-* @param b {second long double value}
-* @post If overflow return LDBL_MAX from <float.h>
-* @return a-b {long double value}
+* @param a {first double value}
+* @param b {second double value}
+* @post If overflow return DBL_MAX from <float.h>
+* @return a-b {double value}
 **/
-long double lib_subb (long double a,long double b);
+double lib_sub (double a,double b);
 
 /**
 * The function multiplies two numbers
-* @param a {first long double value}
-* @param b {second long double value}
-* @post If overflow return LDBL_MAX from <float.h>
-* @return a*b {long double value}
+* @param a {first double value}
+* @param b {second double value}
+* @post If overflow return DBL_MAX from <float.h>
+* @return a*b {double value}
 **/
-long double lib_mull (long double a,long double b);
+double lib_mul (double a,double b);
 
 /**
 * The function divides two numbers
-* @param a {first long double value}
-* @param b {second long double value}
-* @post If b = 0 return LDBL_MAX from <float.h>
-* @return a/b {long double value}
+* @param a {first double value}
+* @param b {second double value}
+* @post If b = 0 return DBL_MAX from <float.h>
+* @return a/b {double value}
 **/
-long double lib_divide (long double a,long double b);
+double lib_div (double a,double b);
 
 /**
 * The function returns factorial of input
-* @param a {unsigned long value}
-* @post if overflow return LDBL_MAX from <float.h>
-* @return a! {long double value}
+* @param a {unsigned int value}
+* @post if overflow return DBL_MAX from <float.h>
+* @return a! {double value}
 **/
-long double lib_factorial (unsigned long a);
+double lib_factorial (unsigned int a);
 
 /**
 * The function returns power of input
 * @param a {unsigned long value}
 * @param b {unsigned int exponent}
-* @post if overflow return LDBL_MAX from <float.h>
-* @return a! {long double value}
+* @post if overflow return DBL_MAX from <float.h>
+* @return a! {double value}
 **/
-long double lib_exp (long double a, unsigned int b);
+double lib_exp (double a, unsigned int b);
 
 #endif //__math__
 /*** END math.c ***/

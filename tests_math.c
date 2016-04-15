@@ -14,65 +14,65 @@
  * Simple C Test Suite
  */
 
-long double lib_divide(long double a, long double b);
+double lib_div(double a, double b);
 
-void testLib_divide(long double a, long double b, long double check) {
-    long double result = lib_divide(a, b);
-    long double precision = 0.0000000001;
+void testLib_div(double a, double b, double check) {
+    double result = lib_div(a, b);
+    double precision = 0.0000000001;
     if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_divide (tests_math) message=error %Lf / %Lf != %Lf is %Lf\n",a,b,check,result);
+        printf("%%TEST_FAILED%% time=0 testname=testLib_div (tests_math) message=error %Lf / %f != %f is %f\n",a,b,check,result);
     }           
 }
 
 
-long double lib_exp(long double a, unsigned int b);
+double lib_exp(double a, unsigned int b);
 
-void testLib_exp(long double a, unsigned int b, long double check) {
-    long double result = lib_exp(a, b);
-    long double precision = 0.0000000001;
+void testLib_exp(double a, unsigned int b, double check) {
+    double result = lib_exp(a, b);
+    double precision = 0.0000000001;
     if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_exp (tests_math) message=error %Lf ^ %d != %Lf is %Lf\n",a,b,check,result);
+        printf("%%TEST_FAILED%% time=0 testname=testLib_exp (tests_math) message=error %f ^ %u != %f is %f\n",a,b,check,result);
     }
 }
 
-long double lib_factorial(unsigned long a);
+double lib_factorial(unsigned int a);
 
-void testLib_factorial(unsigned long a, long double check) {
-    long double result = lib_factorial(a);
-    long double precision = 0.0000000001;
+void testLib_factorial(unsigned int a, double check) {
+    double result = lib_factorial(a);
+    double precision = 0.0000000001;
     if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_factorial (tests_math) message=error !%lu != %Lf is %Lf\n",a,check,result);
+        printf("%%TEST_FAILED%% time=0 testname=testLib_factorial (tests_math) message=error !%u != %f is %f\n",a,check,result);
     }
 }
 
-long double lib_mull(long double a, long double b);
+double lib_mul(double a, double b);
 
 
-void testLib_mull(long double a, long double b, long double check) {
-    long double result = lib_mull(a, b);
-    long double precision = 0.0000000001;
+void testLib_mul(double a, double b, double check) {
+    double result = lib_mul(a, b);
+    double precision = 0.0000000001;
     if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_mull (tests_math) message=error %Lf * %Lf != %.100Lf is %.100Lf\n",a,b,check,result);
+        printf("%%TEST_FAILED%% time=0 testname=testLib_mul (tests_math) message=error %f * %f != %.100f is %.100f\n",a,b,check,result);
     }
 }
 
-long double lib_subb(long double a, long double b);
+double lib_sub(double a, double b);
 
-void testLib_subb(long double a, long double b, long double check) {
-    long double result = lib_subb(a, b);
-    long double precision = 0.0000000001;
+void testLib_sub(double a, double b, double check) {
+    double result = lib_sub(a, b);
+    double precision = 0.0000000001;
     if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_subb (tests_math) message=error %Lf - %Lf != %Lf is %Lf\n",a,b,check,result);
+        printf("%%TEST_FAILED%% time=0 testname=testLib_sub (tests_math) message=error %f - %f != %f is %f\n",a,b,check,result);
     }
 }
 
-long double lib_sum(long double a, long double b);
+double lib_sum(double a, double b);
 
-void testLib_sum(long double a, long double b, long double check) {
-    long double result = lib_sum(a, b);
-    long double precision = 0.0000000001;
+void testLib_sum(double a, double b, double check) {
+    double result = lib_sum(a, b);
+    double precision = 0.0000000001;
     if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_sum (tests_math) message=error %Lf + %Lf != %Lf is %Lf\n",a,b,check,result);
+        printf("%%TEST_FAILED%% time=0 testname=testLib_sum (tests_math) message=error %f + %f != %f is %f\n",a,b,check,result);
     }
 }
 
@@ -82,17 +82,17 @@ int main(int argc, char** argv) {
     printf("%%SUITE_STARTED%%\n");
 
     
-    printf("%%TEST_STARTED%%  testLib_divide1 (tests_math)\n");
-    testLib_divide(10.5,2,5.25);
-    printf("%%TEST_FINISHED%% time=0 testLib_divide1 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_div1 (tests_math)\n");
+    testLib_div(10.5,2,5.25);
+    printf("%%TEST_FINISHED%% time=0 testLib_div1 (tests_math)\n");
     
-    printf("%%TEST_STARTED%%  testLib_divide2 (tests_math)\n");
-    testLib_divide(6.25,-4,-1.5625);
-    printf("%%TEST_FINISHED%% time=0 testLib_divide2 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_div2 (tests_math)\n");
+    testLib_div(6.25,-4,-1.5625);
+    printf("%%TEST_FINISHED%% time=0 testLib_div2 (tests_math)\n");
     
-    printf("%%TEST_STARTED%%  testLib_divide3 (tests_math)\n");
-    testLib_divide(6,0,LDBL_MAX);
-    printf("%%TEST_FINISHED%% time=0 testLib_divide3 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_div3 (tests_math)\n");
+    testLib_div(6,0,DBL_MAX);
+    printf("%%TEST_FINISHED%% time=0 testLib_div3 (tests_math)\n");
     
     
     printf("%%TEST_STARTED%%  testLib_exp1 (tests_math)\n");
@@ -104,7 +104,7 @@ int main(int argc, char** argv) {
     printf("%%TEST_FINISHED%% time=0 testLib_exp2 (tests_math)\n");
     
     printf("%%TEST_STARTED%%  testLib_exp3 (tests_math)\n");
-    testLib_exp(-9999999,100,LDBL_MAX);
+    testLib_exp(-9999999,100,DBL_MAX);
     printf("%%TEST_FINISHED%% time=0 testLib_exp3 (tests_math)\n");
     
     
@@ -117,34 +117,34 @@ int main(int argc, char** argv) {
     printf("%%TEST_FINISHED%% time=0 testLib_factorial2 (tests_math)\n");
     
     printf("%%TEST_STARTED%%  testLib_factorial3 (tests_math)\n");
-    testLib_factorial(1550,LDBL_MAX);
+    testLib_factorial(1550,DBL_MAX);
     printf("%%TEST_FINISHED%% time=0 testLib_factorial3 (tests_math)\n");
 
     
-    printf("%%TEST_STARTED%%  testLib_mull1 (tests_math)\n");
-    testLib_mull(4.2,-4.1,-17.22);
-    printf("%%TEST_FINISHED%% time=0 testLib_mull1 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_mul1 (tests_math)\n");
+    testLib_mul(4.2,-4.1,-17.22);
+    printf("%%TEST_FINISHED%% time=0 testLib_mul1 (tests_math)\n");
     
-    printf("%%TEST_STARTED%%  testLib_mull2 (tests_math)\n");
-    testLib_mull(10,0,0);
-    printf("%%TEST_FINISHED%% time=0 testLib_mull2 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_mul2 (tests_math)\n");
+    testLib_mul(10,0,0);
+    printf("%%TEST_FINISHED%% time=0 testLib_mul2 (tests_math)\n");
     
-    printf("%%TEST_STARTED%%  testLib_mull3 (tests_math)\n");
-    testLib_mull(99999999999,1000000000000,LDBL_MAX);
-    printf("%%TEST_FINISHED%% time=0 testLib_mull3 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_mul3 (tests_math)\n");
+    testLib_mul(999999999999999,100000000000000000000000000000000000000,DBL_MAX);
+    printf("%%TEST_FINISHED%% time=0 testLib_mul3 (tests_math)\n");
 
     
-    printf("%%TEST_STARTED%%  testLib_subb1 (tests_math)\n");
-    testLib_subb(27,10,17);
-    printf("%%TEST_FINISHED%% time=0 testLib_subb1 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_sub1 (tests_math)\n");
+    testLib_sub(27,10,17);
+    printf("%%TEST_FINISHED%% time=0 testLib_sub1 (tests_math)\n");
     
-    printf("%%TEST_STARTED%%  testLib_subb2 (tests_math)\n");
-    testLib_subb(3.5,0,3.5);
-    printf("%%TEST_FINISHED%% time=0 testLib_subb2 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_sub2 (tests_math)\n");
+    testLib_sub(3.5,0,3.5);
+    printf("%%TEST_FINISHED%% time=0 testLib_sub2 (tests_math)\n");
     
-    printf("%%TEST_STARTED%%  testLib_subb3 (tests_math)\n");
-    testLib_subb(2.123,-2.123,4.246);
-    printf("%%TEST_FINISHED%% time=0 testLib_subb3 (tests_math)\n");
+    printf("%%TEST_STARTED%%  testLib_sub3 (tests_math)\n");
+    testLib_sub(2.123,-2.123,4.246);
+    printf("%%TEST_FINISHED%% time=0 testLib_sub3 (tests_math)\n");
 
     
     printf("%%TEST_STARTED%%  testLib_sum1 (tests_math)\n");
