@@ -53,6 +53,7 @@ double lib_div (double a,double b){
 double lib_factorial (unsigned int a){
     double result = (double)a;
     double x = 0;
+    double precision = 0.0000000001;
     
     if (a == 0)
         return 1;
@@ -64,8 +65,9 @@ double lib_factorial (unsigned int a){
     
     while (a != 1){
         x = result * a;
-        if ((result != 0) && ((x / result) != a))
-            return DBL_MAX;
+        if (result != 0)
+            if(((x / result) > (a + precision)) || ((x / result) < (a - precision)))
+                return DBL_MAX;
 
         result *=a;
         a--;
@@ -77,18 +79,71 @@ double lib_factorial (unsigned int a){
 double lib_exp (double a, unsigned int b){
     double result = a;
     double x = 0;
+    double precision = 0.0000000001;
     
     if (b == 0)
         return 1;
     
     while (b != 1){
         x = result * a;
-        if ((result != 0) && ((x / result) != a))
-            return DBL_MAX;
+        if (result != 0)
+            if(((x / result) > (a + precision)) || ((x / result) < (a - precision)))
+                return DBL_MAX;
 
         result *=a;
         b--;
     }
 
     return result;
+}
+
+double lib_abs(double x)
+{
+    if(x<0)
+        return x * (-1);
+    else
+        return x;
+}
+
+double lib_ln( double x) {
+
+    double x_result,x_help, x_prev, iterc;
+    double eps = 0.00000000001;
+
+    if ( x > 0 ) {
+
+      x_prev = 0;
+      iterc = 1;
+      if ( x < 1 ) {
+
+        x = 1-x;
+        x_result = -x;
+        x_help = x;
+
+        while ( lib_abs(x_result) - lib_abs(x_prev) > eps ) {
+            iterc++;
+            x_help *= x;
+            x_prev = x_result;
+            x_result -= x_help/iterc;
+        }
+
+      } else {
+
+        x = (x-1)/x;
+        x_result = x;
+        x_help = x;
+
+
+        while ( lib_abs(x_result) - lib_abs(x_prev) > eps) {
+            iterc++;
+            x_help *= x;
+            x_prev = x_result;
+            x_result += x_help/iterc;
+        }
+
+        }
+
+    } else { return DBL_MAX; }
+
+    return x_result;
 }

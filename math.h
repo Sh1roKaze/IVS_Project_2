@@ -58,12 +58,27 @@ double lib_factorial (unsigned int a);
 
 /**
 * The function returns power of input
-* @param a {unsigned long value}
+* @param a {double value}
 * @param b {unsigned int exponent}
 * @post if overflow return DBL_MAX from <float.h>
 * @return a! {double value}
 **/
 double lib_exp (double a, unsigned int b);
+
+/**
+* The function returns absolut value of input
+* @param a {double value}
+* @return |a| {double value}   
+**/ 
+double lib_abs(double a);
+
+/**
+* The function returns ln of input
+* @param a {double value}
+* @post if a < 0 return DBL_MAX from <float.h>
+* @return ln(a) {double value}   
+**/ 
+double lib_ln(double a);
 
 #endif //__math__
 /*** END math.c ***/
