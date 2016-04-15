@@ -2,13 +2,14 @@
  * File:   tests_math.c
  * Author: Jan Oškera
  *
- * Netbean tests CUnit test
+ * Netbean simple tests
  * Created on 13.4.2016, 22:17:28
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <float.h>
+#include "math.h"
 
 /*
  * Simple C Test Suite
@@ -76,6 +77,25 @@ void testLib_sum(double a, double b, double check) {
     }
 }
 
+double lib_ln(double a);
+
+void testLib_ln(double a, double check) {
+    double result = lib_ln(a);
+    double precision = 0.0000000001;
+    if (((result + precision) < check) || ((result - precision) > check)) {
+        printf("%%TEST_FAILED%% time=0 testname=testLib_ln (tests_math) message=error ln(%f) != %.15f is %.15f\n",a,check,result);
+    }
+}
+
+double lib_abs(double a);
+
+void testLib_abs(double a, double check) {
+    double result = lib_abs(a);
+    double precision = 0.0000000001;
+    if (((result + precision) < check) || ((result - precision) > check)) {
+        printf("%%TEST_FAILED%% time=0 testname=testLib_abs (tests_math) message=error ln(%f) != %.15f is %.15f\n",a,check,result);
+    }
+}
 
 int main(int argc, char** argv) {
     printf("%%SUITE_STARTING%% tests_math\n");
@@ -117,7 +137,7 @@ int main(int argc, char** argv) {
     printf("%%TEST_FINISHED%% time=0 testLib_factorial2 (tests_math)\n");
     
     printf("%%TEST_STARTED%%  testLib_factorial3 (tests_math)\n");
-    testLib_factorial(1550,DBL_MAX);
+    testLib_factorial(180,DBL_MAX);
     printf("%%TEST_FINISHED%% time=0 testLib_factorial3 (tests_math)\n");
 
     
@@ -159,7 +179,36 @@ int main(int argc, char** argv) {
     testLib_sum(-10.1,10.1,0);
     printf("%%TEST_FINISHED%% time=0 testLib_sum3 (tests_math)\n");
     
-
+    
+    printf("%%TEST_STARTED%%  testLib_ln1 (tests_math)\n");
+    testLib_ln(-1,DBL_MAX);
+    printf("%%TEST_FINISHED%% time=0 testLib_ln1 (tests_math)\n");
+    
+    printf("%%TEST_STARTED%%  testLib_ln2 (tests_math)\n");
+    testLib_ln(1,0);
+    printf("%%TEST_FINISHED%% time=0 testLib_ln2 (tests_math)\n");
+    
+    printf("%%TEST_STARTED%%  testLib_ln3 (tests_math)\n");
+    testLib_ln(10,2.302585093);
+    printf("%%TEST_FINISHED%% time=0 testLib_ln3 (tests_math)\n");
+    
+    printf("%%TEST_STARTED%%  testLib_ln4 (tests_math)\n");
+    testLib_ln(0.66,-0.415515444);
+    printf("%%TEST_FINISHED%% time=0 testLib_ln4 (tests_math)\n");
+    
+    printf("%%TEST_STARTED%%  testLib_abs1 (tests_math)\n");
+    testLib_abs(-0.66,0.66);
+    printf("%%TEST_FINISHED%% time=0 testLib_abs1 (tests_math)\n");
+    
+     printf("%%TEST_STARTED%%  testLib_abs2 (tests_math)\n");
+    testLib_abs(2.65,2.65);
+    printf("%%TEST_FINISHED%% time=0 testLib_abs2 (tests_math)\n");
+    
+     printf("%%TEST_STARTED%%  testLib_abs3 (tests_math)\n");
+    testLib_abs(0,0);
+    printf("%%TEST_FINISHED%% time=0 testLib_abs3 (tests_math)\n");
+    
+   
     printf("%%SUITE_FINISHED%% time=0\n");
 
     return (EXIT_SUCCESS);
