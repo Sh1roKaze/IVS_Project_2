@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <math.h>
+#include "math.h"
 
 typedef struct {
     
@@ -113,26 +113,23 @@ double struct_eval () {
     switch ( (int) textStruct.operator[0]) {
         
         case 43:
-            result = first + second;            
+            result = lib_sum(first, second);            
             break;
             
         case 45:
-            result = first - second;
+            result = lib_subb(first, second);
             break;
             
         case 42:
-            result = first * second;
+            result = lib_mull(first, second);
             break;
             
         case 47:
-            result = first / second;
+            result = lib_divide(first, second);
             break;
             
         case 94:
-            result = first;
-            for (int i = (int) second; i>1; i--) {
-                result = result * first;
-            }
+            result = lib_exp(first, second);
             break;            
             
         default:
@@ -275,14 +272,52 @@ void buttonPower_onclick() {
 }
 
 void buttonFactorial_onclick() {
-
     
+    char my_string[124];
+    memset(my_string, 0, sizeof(char));
+    double result;
     
+    if (strlen(textStruct.result) ==  0) { 
+        if (strlen(textStruct.operator) == 0) { 
+            
+            char rest[42];
+            double result;
+    
+            void *ptr = &rest;
+                
+            unsigned long first = strtol(textStruct.first, ptr, 0);
+            
+            result = lib_factorial(first);
+            
+            sprintf(textStruct.result,"%f",result);
+        }
+    }    
+        
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
 
 void buttonCE_onclick() {
     
+    char my_string[124];
+    memset(my_string, 0, sizeof(char));
     
+    if (strlen(textStruct.result) ==  0) { 
+        if (strlen(textStruct.operator) == 0) { 
+            memset(textStruct.first, 0, sizeof(char)); 
+        } else { 
+            memset(textStruct.second, 0, sizeof(char));
+        }
+    } else {
+        memset(textStruct.first, 0, sizeof(char)); 
+        memset(textStruct.second, 0, sizeof(char)); 
+        memset(textStruct.operator, 0, sizeof(char)); 
+        memset(textStruct.result, 0, sizeof(char));
+    }
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
 
 void buttonC_onclick() {
