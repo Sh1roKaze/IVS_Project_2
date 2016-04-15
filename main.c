@@ -172,6 +172,12 @@ void b_oper_on_click(char *value) {
                 to_s(textStruct, my_string);
     
                 gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);                
+            } else {
+                
+                memset(textStruct.operator, 0, sizeof(char));
+                strcat(textStruct.operator, value);
+                to_s(textStruct, my_string);
+                gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);                 
             }
         }
     }
@@ -229,7 +235,15 @@ void button9_onclick() {
 
 void buttonDot_onclick() {
 
-    b_num_on_click(".");   
+    if (strlen(textStruct.operator) == 0) {
+        if (strchr(textStruct.first, 46) == NULL) {
+            b_num_on_click(".");
+        }
+    } else {
+        if (strchr(textStruct.second, 46) == NULL) {
+            b_num_on_click(".");
+        }
+    }   
 }
 
 void buttonEqual_onclick() {
@@ -253,7 +267,19 @@ void buttonPlus_onclick() {
 
 void buttonMinus_onclick() {
     
-    b_oper_on_click("-");  
+    if (strlen(textStruct.operator) == 0) {
+        if (strchr(textStruct.first, 45) == NULL) {
+            if (strlen(textStruct.first) == 0) {
+                b_num_on_click("-"); 
+            } else {
+                b_oper_on_click("-"); 
+            }
+        } else {
+            b_oper_on_click("-");
+        }
+    } else {
+        b_oper_on_click("-");     
+    }
 }
 
 void buttonMultiply_onclick() {
@@ -416,5 +442,4 @@ int main (int argc, char **argv) {
   gtk_main ();
 
   return 0;
-    
 }
