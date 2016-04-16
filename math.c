@@ -7,26 +7,19 @@
 
 #include "math.h"
 
-double lib_sum (double a,double b){
+
+double lib_sum (double a,double b){            
     
-    if (b != 0)
-        if (a > 0 && b > DBL_MAX - a)
-            return DBL_MAX;
-        else 
-            if (a < 0 && b < DBL_MIN - a) 
-                return DBL_MAX;
-            
     return a + b;
 }
 
 double lib_sub (double a,double b){
     
-    if (b != 0)
-        if (a > 0 && (-b) > DBL_MAX - a) 
+    if (a > 0 && (-b) > DBL_MAX - a) 
+        return DBL_MAX;
+    else 
+        if (a < 0 && (-b) < DBL_MIN - a) 
             return DBL_MAX;
-        else 
-            if (a < 0 && (-b) < DBL_MIN - a) 
-                return DBL_MAX;
     
     
     return a - b;
