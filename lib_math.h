@@ -11,12 +11,12 @@
 #define __math__
 
 #include <float.h>
+#include <math.h>
 
 /**
 * The function sums two numbers
 * @param a {first double value}
 * @param b {second double value}
-* @post If overflow return DBL_MAX from <float.h>
 * @return a+b {double value}
 **/
 double lib_sum (double a,double b);
@@ -25,7 +25,6 @@ double lib_sum (double a,double b);
 * The function subtracts two numbers
 * @param a {first double value}
 * @param b {second double value}
-* @post If overflow return DBL_MAX from <float.h>
 * @return a-b {double value}
 **/
 double lib_sub (double a,double b);
@@ -34,7 +33,7 @@ double lib_sub (double a,double b);
 * The function multiplies two numbers
 * @param a {first double value}
 * @param b {second double value}
-* @post If overflow return DBL_MAX from <float.h>
+* @post If overflow return NAN from <math.h>
 * @return a*b {double value}
 **/
 double lib_mul (double a,double b);
@@ -43,27 +42,29 @@ double lib_mul (double a,double b);
 * The function divides two numbers
 * @param a {first double value}
 * @param b {second double value}
-* @post If b = 0 return DBL_MAX from <float.h>
+* @post If b = 0 return NAN from <math.h>
 * @return a/b {double value}
 **/
 double lib_div (double a,double b);
 
 /**
 * The function returns factorial of input
-* @param a {unsigned int value}
-* @post if overflow return DBL_MAX from <float.h>
+* @param a {double value}
+* @post if a < 0 or whole return NAN from <math.h>
+* @post if overflow return NAN from <math.h>
 * @return a! {double value}
 **/
-double lib_factorial (unsigned int a);
+double lib_factorial (double a);
 
 /**
 * The function returns power of input
 * @param a {double value}
-* @param b {unsigned int exponent}
-* @post if overflow return DBL_MAX from <float.h>
+* @param b {double exponent}
+* @post if b < 0 or whole return NAN from <math.h>
+* @post if overflow return NAN from <math.h>
 * @return a! {double value}
 **/
-double lib_exp (double a, unsigned int b);
+double lib_exp (double a, double b);
 
 /**
 * The function returns absolut value of input
@@ -75,7 +76,7 @@ double lib_abs(double a);
 /**
 * The function returns ln of input
 * @param a {double value}
-* @post if a < 0 return DBL_MAX from <float.h>
+* @post if a < 0 return NAN from <math.h>
 * @return ln(a) {double value}   
 **/ 
 double lib_ln(double a);
