@@ -1,7 +1,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
+#include <math.h>
 #include "math.h"
 
 typedef struct {
@@ -103,7 +103,7 @@ void b_num_on_click(char *value) {
 double struct_eval () {
     
     char rest[42];
-    double result;
+    double result = 0;
     
     void *ptr = &rest;
                 
@@ -113,7 +113,7 @@ double struct_eval () {
     switch ( (int) textStruct.operator[0]) {
         
         case 43:
-            result = lib_sum(first, second);            
+            result = lib_sum(first, second);
             break;
             
         case 45:
@@ -129,7 +129,12 @@ double struct_eval () {
             break;
             
         case 94:
-            result = lib_exp(first, second);
+            if (strchr(textStruct.second, 46) == NULL ) {
+            
+                result = lib_exp(first, second);   
+            } else {
+                result = NAN;
+            }
             break;            
             
         default:
@@ -293,7 +298,7 @@ void buttonDivide_onclick() {
 }
 
 void buttonPower_onclick() {
-    
+
     b_oper_on_click("^"); 
 }
 
