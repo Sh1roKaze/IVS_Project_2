@@ -1,8 +1,7 @@
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include "math.h"
+#include "lib_math.h"
 
 typedef struct {
     
@@ -21,12 +20,14 @@ typedef struct {
     GtkButton *button9;
     GtkButton *buttonDot;
     GtkButton *buttonEqual;
+    GtkButton *buttonSign;
     GtkButton *buttonPlus;
     GtkButton *buttonMinus;
     GtkButton *buttonMultiply;
     GtkButton *buttonDivide;
     GtkButton *buttonPower;
     GtkButton *buttonFactorial;
+    GtkButton *buttonLog;
     GtkButton *buttonCE;
     GtkButton *buttonC;
     
@@ -128,13 +129,8 @@ double struct_eval () {
             result = lib_div(first, second);
             break;
             
-        case 94:
-            if (strchr(textStruct.second, 46) == NULL ) {
-            
+        case 94:            
                 result = lib_exp(first, second);   
-            } else {
-                result = NAN;
-            }
             break;            
             
         default:
@@ -272,19 +268,50 @@ void buttonPlus_onclick() {
 
 void buttonMinus_onclick() {
     
+    b_oper_on_click("-");     
+}
+
+void buttonSign_onclick() {
+    
+    char my_string[124];
+    memset(my_string, 0, sizeof(char));
+    
     if (strlen(textStruct.operator) == 0) {
         if (strchr(textStruct.first, 45) == NULL) {
-            if (strlen(textStruct.first) == 0) {
-                b_num_on_click("-"); 
-            } else {
-                b_oper_on_click("-"); 
-            }
+            strcpy(my_string, textStruct.first);
+            memset(textStruct.first, 0, sizeof(char));
+            strcat(textStruct.first,"-");
+            strcat(textStruct.first, my_string);
         } else {
-            b_oper_on_click("-");
+            
+            strcpy(my_string, &textStruct.first[1]);
+            memset(textStruct.first, 0, sizeof(char));
+            strcat(textStruct.first, my_string);      
         }
-    } else {
-        b_oper_on_click("-");     
     }
+    
+    else {
+        
+        if (strchr(textStruct.second, 45) == NULL) {
+            strcpy(my_string, textStruct.second);
+            memset(textStruct.second, 0, sizeof(char));
+            strcat(textStruct.second,"-");
+            strcat(textStruct.second, my_string);
+        } else {
+            
+            strcpy(my_string, &textStruct.second[1]);
+            memset(textStruct.second, 0, sizeof(char));
+            strcat(textStruct.second, my_string);      
+        }
+            
+    }
+    
+    memset(my_string, 0, sizeof(char));
+    
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
+    
 }
 
 void buttonMultiply_onclick() {
@@ -306,7 +333,6 @@ void buttonFactorial_onclick() {
     
     char my_string[124];
     memset(my_string, 0, sizeof(char));
-    double result;
     
     if (strlen(textStruct.result) ==  0) { 
         if (strlen(textStruct.operator) == 0) { 
@@ -316,7 +342,7 @@ void buttonFactorial_onclick() {
     
             void *ptr = &rest;
                 
-            unsigned long first = strtol(textStruct.first, ptr, 0);
+            double first = strtol(textStruct.first, ptr, 0);
             
             result = lib_factorial(first);
             
@@ -328,6 +354,34 @@ void buttonFactorial_onclick() {
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
+
+void buttonLog_onclick () {
+    
+    char my_string[124];
+    memset(my_string, 0, sizeof(char));
+    
+    if (strlen(textStruct.result) ==  0) { 
+        if (strlen(textStruct.operator) == 0) { 
+            
+            char rest[42];
+            double result;
+    
+            void *ptr = &rest;
+                
+            double first = strtol(textStruct.first, ptr, 0);
+            
+            result = lib_ln(first);
+            
+            sprintf(textStruct.result,"%f",result);
+        }
+    }    
+        
+    to_s(textStruct, my_string);
+    
+    gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
+    
+}
+
 
 void buttonCE_onclick() {
     
@@ -398,12 +452,14 @@ int main (int argc, char **argv) {
   
   calculator->buttonDot = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonDot"));
   calculator->buttonEqual = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonEqual"));
+  calculator->buttonSign = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonSign"));
   calculator->buttonPlus = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonPlus"));
   calculator->buttonMinus = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonMinus"));
   calculator->buttonMultiply = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonMultiply"));
   calculator->buttonDivide = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonDivide"));
   calculator->buttonPower = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonPower"));
   calculator->buttonFactorial = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonFactorial"));
+  calculator->buttonLog = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonLog"));
   calculator->buttonCE = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonCE"));
   calculator->buttonC = GTK_BUTTON(gtk_builder_get_object (calcBuilder, "buttonC"));
   
@@ -429,13 +485,14 @@ int main (int argc, char **argv) {
   
   g_signal_connect(calculator->buttonDot, "clicked", G_CALLBACK(buttonDot_onclick), NULL);
   g_signal_connect(calculator->buttonEqual, "clicked", G_CALLBACK(buttonEqual_onclick), NULL);
+  g_signal_connect(calculator->buttonSign, "clicked", G_CALLBACK(buttonSign_onclick), NULL);
   g_signal_connect(calculator->buttonPlus, "clicked", G_CALLBACK(buttonPlus_onclick), NULL);
   g_signal_connect(calculator->buttonMinus, "clicked", G_CALLBACK(buttonMinus_onclick), NULL);
   g_signal_connect(calculator->buttonMultiply, "clicked", G_CALLBACK(buttonMultiply_onclick), NULL);
   g_signal_connect(calculator->buttonDivide, "clicked", G_CALLBACK(buttonDivide_onclick), NULL);
   g_signal_connect(calculator->buttonPower, "clicked", G_CALLBACK(buttonPower_onclick), NULL);
   g_signal_connect(calculator->buttonFactorial, "clicked", G_CALLBACK(buttonFactorial_onclick), NULL);
-  g_signal_connect(calculator->buttonCE, "clicked", G_CALLBACK(buttonCE_onclick), NULL);
+  g_signal_connect(calculator->buttonLog, "clicked", G_CALLBACK(buttonLog_onclick), NULL);  g_signal_connect(calculator->buttonCE, "clicked", G_CALLBACK(buttonCE_onclick), NULL);
   g_signal_connect(calculator->buttonC, "clicked", G_CALLBACK(buttonC_onclick), NULL);
   
   gtk_text_buffer_set_text (calculator->textbuffer, "\n", -1);
