@@ -1,215 +1,379 @@
-/*
- * File:   tests_math.c
- * Author: Jan Oškera
- *
- * Netbean simple tests
- * Created on 13.4.2016, 22:17:28
- */
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <float.h>
-#include "math.h"
+#include <stdbool.h>
+#include "minunit.h"
+#include "lib_math.h"
+ 
+int tests_run = 0;
 
-/*
- * Simple C Test Suite
- */
+double precision = 0.0000000001;
 
-double lib_div(double a, double b);
-
-void testLib_div(double a, double b, double check) {
-    double result = lib_div(a, b);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_div (tests_math) message=error %Lf / %f != %f is %f\n",a,b,check,result);
-    }           
-}
-
-
-double lib_exp(double a, unsigned int b);
-
-void testLib_exp(double a, unsigned int b, double check) {
-    double result = lib_exp(a, b);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_exp (tests_math) message=error %f ^ %u != %f is %f\n",a,b,check,result);
-    }
-}
-
-double lib_factorial(unsigned int a);
-
-void testLib_factorial(unsigned int a, double check) {
-    double result = lib_factorial(a);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_factorial (tests_math) message=error !%u != %f is %f\n",a,check,result);
-    }
-}
-
-double lib_mul(double a, double b);
-
-
-void testLib_mul(double a, double b, double check) {
-    double result = lib_mul(a, b);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_mul (tests_math) message=error %f * %f != %.100f is %.100f\n",a,b,check,result);
-    }
-}
-
-double lib_sub(double a, double b);
-
-void testLib_sub(double a, double b, double check) {
-    double result = lib_sub(a, b);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_sub (tests_math) message=error %f - %f != %f is %f\n",a,b,check,result);
-    }
-}
-
-double lib_sum(double a, double b);
-
-void testLib_sum(double a, double b, double check) {
-    double result = lib_sum(a, b);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_sum (tests_math) message=error %f + %f != %f is %f\n",a,b,check,result);
-    }
-}
-
-double lib_ln(double a);
-
-void testLib_ln(double a, double check) {
-    double result = lib_ln(a);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_ln (tests_math) message=error ln(%f) != %.15f is %.15f\n",a,check,result);
-    }
-}
-
-double lib_abs(double a);
-
-void testLib_abs(double a, double check) {
-    double result = lib_abs(a);
-    double precision = 0.0000000001;
-    if (((result + precision) < check) || ((result - precision) > check)) {
-        printf("%%TEST_FAILED%% time=0 testname=testLib_abs (tests_math) message=error ln(%f) != %.15f is %.15f\n",a,check,result);
-    }
-}
-
-int main(int argc, char** argv) {
-    printf("%%SUITE_STARTING%% tests_math\n");
-    printf("%%SUITE_STARTED%%\n");
-
-    
-    printf("%%TEST_STARTED%%  testLib_div1 (tests_math)\n");
-    testLib_div(10.5,2,5.25);
-    printf("%%TEST_FINISHED%% time=0 testLib_div1 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_div2 (tests_math)\n");
-    testLib_div(6.25,-4,-1.5625);
-    printf("%%TEST_FINISHED%% time=0 testLib_div2 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_div3 (tests_math)\n");
-    testLib_div(6,0,DBL_MAX);
-    printf("%%TEST_FINISHED%% time=0 testLib_div3 (tests_math)\n");
-    
-    
-    printf("%%TEST_STARTED%%  testLib_exp1 (tests_math)\n");
-    testLib_exp(-2.5,3,-15.625);
-    printf("%%TEST_FINISHED%% time=0 testLib_exp1 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_exp2 (tests_math)\n");
-    testLib_exp(27,0,1);
-    printf("%%TEST_FINISHED%% time=0 testLib_exp2 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_exp3 (tests_math)\n");
-    testLib_exp(-9999999,100,DBL_MAX);
-    printf("%%TEST_FINISHED%% time=0 testLib_exp3 (tests_math)\n");
-    
-    
-    printf("%%TEST_STARTED%%  testLib_factorial1 (tests_math)\n");
-    testLib_factorial(5,120);
-    printf("%%TEST_FINISHED%% time=0 testLib_factorial1 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_factorial2 (tests_math)\n");
-    testLib_factorial(0,1);
-    printf("%%TEST_FINISHED%% time=0 testLib_factorial2 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_factorial3 (tests_math)\n");
-    testLib_factorial(180,DBL_MAX);
-    printf("%%TEST_FINISHED%% time=0 testLib_factorial3 (tests_math)\n");
-
-    
-    printf("%%TEST_STARTED%%  testLib_mul1 (tests_math)\n");
-    testLib_mul(4.2,-4.1,-17.22);
-    printf("%%TEST_FINISHED%% time=0 testLib_mul1 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_mul2 (tests_math)\n");
-    testLib_mul(10,0,0);
-    printf("%%TEST_FINISHED%% time=0 testLib_mul2 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_mul3 (tests_math)\n");
-    testLib_mul(999999999999999,100000000000000000000000000000000000000,DBL_MAX);
-    printf("%%TEST_FINISHED%% time=0 testLib_mul3 (tests_math)\n");
-
-    
-    printf("%%TEST_STARTED%%  testLib_sub1 (tests_math)\n");
-    testLib_sub(27,10,17);
-    printf("%%TEST_FINISHED%% time=0 testLib_sub1 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_sub2 (tests_math)\n");
-    testLib_sub(3.5,0,3.5);
-    printf("%%TEST_FINISHED%% time=0 testLib_sub2 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_sub3 (tests_math)\n");
-    testLib_sub(2.123,-2.123,4.246);
-    printf("%%TEST_FINISHED%% time=0 testLib_sub3 (tests_math)\n");
-
-    
-    printf("%%TEST_STARTED%%  testLib_sum1 (tests_math)\n");
-    testLib_sum(15.3,10.3,25.6);
-    printf("%%TEST_FINISHED%% time=0 testLib_sum1 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_sum2 (tests_math)\n");
-    testLib_sum(-14.1,0,-14.1);
-    printf("%%TEST_FINISHED%% time=0 testLib_sum2 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_sum3 (tests_math)\n");
-    testLib_sum(-10.1,10.1,0);
-    printf("%%TEST_FINISHED%% time=0 testLib_sum3 (tests_math)\n");
-    
-    
-    printf("%%TEST_STARTED%%  testLib_ln1 (tests_math)\n");
-    testLib_ln(-1,DBL_MAX);
-    printf("%%TEST_FINISHED%% time=0 testLib_ln1 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_ln2 (tests_math)\n");
-    testLib_ln(1,0);
-    printf("%%TEST_FINISHED%% time=0 testLib_ln2 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_ln3 (tests_math)\n");
-    testLib_ln(10,2.302585093);
-    printf("%%TEST_FINISHED%% time=0 testLib_ln3 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_ln4 (tests_math)\n");
-    testLib_ln(0.66,-0.415515444);
-    printf("%%TEST_FINISHED%% time=0 testLib_ln4 (tests_math)\n");
-    
-    printf("%%TEST_STARTED%%  testLib_abs1 (tests_math)\n");
-    testLib_abs(-0.66,0.66);
-    printf("%%TEST_FINISHED%% time=0 testLib_abs1 (tests_math)\n");
-    
-     printf("%%TEST_STARTED%%  testLib_abs2 (tests_math)\n");
-    testLib_abs(2.65,2.65);
-    printf("%%TEST_FINISHED%% time=0 testLib_abs2 (tests_math)\n");
-    
-     printf("%%TEST_STARTED%%  testLib_abs3 (tests_math)\n");
-    testLib_abs(0,0);
-    printf("%%TEST_FINISHED%% time=0 testLib_abs3 (tests_math)\n");
-    
+char * test_sum1() {
+   double a = lib_sum(13.3,3.3);
+   double check = 16.6;
+   bool result = true;
    
-    printf("%%SUITE_FINISHED%% time=0\n");
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+      
+   mu_assert("error, lib_sum 13.3 + 3.3 != 16.6", result);
+   return 0;
+}
 
-    return (EXIT_SUCCESS);
+char * test_sum2() {
+   double a = lib_sum(2.2,-1.1);
+   double check = 1.1;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_sum 2.2 +(-1.1) != 1.1", result);
+   return 0;
+}
+
+char * test_sum3() {
+   double a = lib_sum(0,-0);
+   double check = 0;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_sum 0 - (-0) != 0", result);
+   return 0;
+}
+
+char * test_sub1() {
+   double a = lib_sub(13.3,3.3);
+   double check = 10;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_sub 13.3 - 3.3 != 10", result);
+   return 0;
+}
+
+char * test_sub2() {
+   double a = lib_sub(2.2,-1.1);
+   double check = 3.3;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_sub 2.2 -(-1.1) != 3.3", result);
+   return 0;
+}
+
+char * test_sub3() {
+   double a = lib_sub(0,-0);
+   double check = 0;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_sub 0 - (-0) != 0", result);
+   return 0;
+}
+
+char * test_mul1() {
+   double a = lib_mul (10.1,2);
+   double check = 20.2;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_mul 10.1 * 2 != 20.2", result);
+   return 0;
+}
+
+char * test_mul2() {
+   double a = lib_mul (10.1,-2);
+   double check = -20.2;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_mul 10.1 * (-2) != -20.2", result);
+   return 0;
+}
+
+char * test_mul3() {
+   double a = lib_mul (999999999999999,100000000000000000000000000000000000000);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_mul 99999999999... * 100000000000... != NAN", result);
+   return 0;
+}
+
+char * test_div1() {
+   double a = lib_div (5,2);
+   double check = 2.5;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_div 5 / 2 != 2.5", result);
+   return 0;
+}
+
+char * test_div2() {
+   double a = lib_div (5,-2.5);
+   double check = -2;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_div 5 / (-2.5) != -2", result);
+   return 0;
+}
+
+char * test_div3() {
+   double a = lib_div (5,0);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_div 5 / 0 != NAN", result);
+   return 0;
+}
+
+char * test_factorial1() {
+   double a = lib_factorial (5);
+   double check = 120;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_factorial 5! != 120", result);
+   return 0;
+}
+
+char * test_factorial2() {
+   double a = lib_factorial (-5);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_factorial -5! != NAN", result);
+   return 0;
+}
+
+char * test_factorial3() {
+   double a = lib_factorial (2.1);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_factorial 2.1! != NAN", result);
+   return 0;
+}
+
+char * test_factorial4() {
+   double a = lib_factorial (175);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_factorial 175! != NAN", result);
+   return 0;
+}
+
+char * test_exp1() {
+   double a = lib_exp (2.3,2);
+   double check = 5.29;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_exp 2.3 * 2 != 5.29", result);
+   return 0;
+}
+
+char * test_exp2() {
+   double a = lib_exp (2.3,-2);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_exp 2.3 * (-2) != NAN", result);
+   return 0;
+}
+
+char * test_exp3() {
+   double a = lib_exp (2.3,2.1);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_exp 2.3 * 2.1 != NAN", result);
+   return 0;
+}
+
+char * test_exp4() {
+   double a = lib_exp (2.3,0);
+   double check = 1;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_exp 2.3 * 0 != 1", result);
+   return 0;
+}
+
+char * test_abs1() {
+   double a = lib_abs (-2.3);
+   double check = 2.3;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_abs -2.3 != 2.3", result);
+   return 0;
+}
+
+char * test_abs2() {
+   double a = lib_abs (2.3);
+   double check = 2.3;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_abs 2.3 != 2.3", result);
+   return 0;
+}
+
+char * test_abs3() {
+   double a = lib_abs (0);
+   double check = 0;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_abs 0 != 0", result);
+   return 0;
+}
+
+char * test_ln1() {
+   double a = lib_ln (0);
+   double check = NAN;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_ln ln(0) != NAN", result);
+   return 0;
+}
+
+char * test_ln2() {
+   double a = lib_ln (0.5);
+   double check = -0.6931471806;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_ln ln(0.5) != -0.6931471806", result);
+   return 0;
+}
+
+char * test_ln3() {
+   double a = lib_ln (1);
+   double check = 0;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_ln ln(1) != 0", result);
+   return 0;
+}
+
+char * test_ln4() {
+   double a = lib_ln (10);
+   double check = 2.302585093;
+   bool result = true;
+   
+   if (((a + precision) < check) || ((a - precision) > check))
+      result = false;
+   
+   mu_assert("error, lib_ln ln(10) != 2.302585093", result);
+   return 0;
+}
+
+char * all_tests() {
+   mu_run_test(test_sum1);
+   mu_run_test(test_sum2);
+   mu_run_test(test_sum3);
+   mu_run_test(test_sub1);
+   mu_run_test(test_sub2);
+   mu_run_test(test_sub3);
+   mu_run_test(test_mul1);
+   mu_run_test(test_mul2);
+   mu_run_test(test_mul3);
+   mu_run_test(test_div1);
+   mu_run_test(test_div2);
+   mu_run_test(test_div3);
+   mu_run_test(test_factorial1);
+   mu_run_test(test_factorial2);
+   mu_run_test(test_factorial3);
+   mu_run_test(test_factorial4);
+   mu_run_test(test_exp1);
+   mu_run_test(test_exp2);
+   mu_run_test(test_exp3);
+   mu_run_test(test_exp4);
+   mu_run_test(test_abs1);
+   mu_run_test(test_abs2);
+   mu_run_test(test_abs3);
+   mu_run_test(test_ln1);
+   mu_run_test(test_ln2);
+   mu_run_test(test_ln3);
+   mu_run_test(test_ln4);
+   
+   return 0;
+}
+ 
+int main(int argc, char **argv) {
+   
+   char *result = all_tests();
+   
+   if (result != 0) {
+      printf("%s\n", result);
+   }
+   else {
+      printf("ALL TESTS PASSED\n");
+   }
+   printf("Tests run: %d\n", tests_run);
+ 
+   return result != 0;
 }
