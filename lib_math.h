@@ -76,7 +76,7 @@ double lib_abs(double a);
 /**
 * The function returns ln of input
 * @param a {double value}
-* @post if a < 0 return NAN from <math.h>
+* @post if a <= 0 return NAN from <math.h>
 * @return ln(a) {double value}   
 **/ 
 double lib_ln(double a);
