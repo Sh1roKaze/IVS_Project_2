@@ -41,50 +41,50 @@ typedef struct {
     char second[42];
     char result[42];
     
-} magic_struct;
+} text_struct;
 
 /* Magic variables */  
 App *calculator;
-magic_struct textStruct;
+text_struct appData;
 
 
-#define APPEND(textStruct, value) { \
-    if (strlen(textStruct.result) > 0) { \
-        /*clears textStruct */ \
-        memset(textStruct.first, 0, sizeof(char)); \
-        memset(textStruct.second, 0, sizeof(char)); \
-        memset(textStruct.operator, 0, sizeof(char)); \
-        memset(textStruct.result, 0, sizeof(char)); \
+#define APPEND(appData, value) { \
+    if (strlen(appData.result) > 0) { \
+        /*clears appData */ \
+        memset(appData.first, 0, sizeof(char)); \
+        memset(appData.second, 0, sizeof(char)); \
+        memset(appData.operator, 0, sizeof(char)); \
+        memset(appData.result, 0, sizeof(char)); \
     } \
-    if (strlen(textStruct.operator) == 0) { \
-        if (strlen(textStruct.first) < 21) \
-            strcat(textStruct.first, value); \
+    if (strlen(appData.operator) == 0) { \
+        if (strlen(appData.first) < 21) \
+            strcat(appData.first, value); \
     } else { \
-        if (strlen(textStruct.second) < 21) \
-        strcat(textStruct.second, value); \
+        if (strlen(appData.second) < 21) \
+        strcat(appData.second, value); \
     }\
 }
 
-void to_s (magic_struct textStruct, char *my_string) { 
-    if (strlen(textStruct.result) ==  0) { 
-        if (strlen(textStruct.operator) == 0) { 
+void to_s (text_struct appData, char *my_string) { 
+    if (strlen(appData.result) ==  0) { 
+        if (strlen(appData.operator) == 0) { 
             strcat(my_string, "\n"); 
-            strcat(my_string, textStruct.first); 
+            strcat(my_string, appData.first); 
         } else { 
-            strcat(my_string, textStruct.first); 
+            strcat(my_string, appData.first); 
             strcat(my_string, " "); 
-            strcat(my_string, textStruct.operator);
+            strcat(my_string, appData.operator);
             strcat(my_string, "\n"); 
-            strcat(my_string, textStruct.second); 
+            strcat(my_string, appData.second); 
         }
     } else {
-        strcat(my_string, textStruct.first); 
+        strcat(my_string, appData.first); 
         strcat(my_string, " "); 
-        strcat(my_string, textStruct.operator);
+        strcat(my_string, appData.operator);
         strcat(my_string, " "); 
-        strcat(my_string, textStruct.second); 
+        strcat(my_string, appData.second); 
         strcat(my_string, "\n"); 
-        strcat(my_string, textStruct.result); 
+        strcat(my_string, appData.result); 
     }
 }
 
@@ -94,9 +94,9 @@ void b_num_on_click(char *value) {
     char my_string[128];
     memset(my_string, 0, sizeof(char));
         
-    APPEND(textStruct, value)
+    APPEND(appData, value)
     
-    to_s(textStruct, my_string);
+    to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 } 
@@ -108,10 +108,10 @@ double struct_eval () {
     
     void *ptr = &rest;
                 
-    double first = strtod(textStruct.first, ptr);
-    double second = strtod(textStruct.second, ptr);
+    double first = strtod(appData.first, ptr);
+    double second = strtod(appData.second, ptr);
     
-    switch ( (int) textStruct.operator[0]) {
+    switch ( (int) appData.operator[0]) {
         
         case 43:
             result = lib_sum(first, second);
@@ -147,37 +147,37 @@ void b_oper_on_click(char *value) {
     
     char my_string[124];
     memset(my_string, 0, sizeof(char));
-    if (strlen(textStruct.first) != 0) {
-        if (strlen(textStruct.operator) == 0) {
+    if (strlen(appData.first) != 0) {
+        if (strlen(appData.operator) == 0) {
             
-            strcat(textStruct.operator, value);
+            strcat(appData.operator, value);
             
-            to_s(textStruct, my_string);
+            to_s(appData, my_string);
 
             gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
             
         } else {
-            if (strlen(textStruct.second) > 0) {
+            if (strlen(appData.second) > 0) {
                 
                 double result = struct_eval(value);
                 
-                memset(textStruct.first, 0, sizeof(char));
-                memset(textStruct.second, 0, sizeof(char)); 
-                memset(textStruct.operator, 0, sizeof(char)); 
-                memset(textStruct.result, 0, sizeof(char));
+                memset(appData.first, 0, sizeof(char));
+                memset(appData.second, 0, sizeof(char)); 
+                memset(appData.operator, 0, sizeof(char)); 
+                memset(appData.result, 0, sizeof(char));
                 
-                sprintf(textStruct.first,"%f",result);
+                sprintf(appData.first,"%f",result);
                 
-                strcat(textStruct.operator, value);
+                strcat(appData.operator, value);
     
-                to_s(textStruct, my_string);
+                to_s(appData, my_string);
     
                 gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);                
             } else {
                 
-                memset(textStruct.operator, 0, sizeof(char));
-                strcat(textStruct.operator, value);
-                to_s(textStruct, my_string);
+                memset(appData.operator, 0, sizeof(char));
+                strcat(appData.operator, value);
+                to_s(appData, my_string);
                 gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);                 
             }
         }
@@ -236,12 +236,12 @@ void button9_onclick() {
 
 void buttonDot_onclick() {
 
-    if (strlen(textStruct.operator) == 0) {
-        if (strchr(textStruct.first, 46) == NULL) {
+    if (strlen(appData.operator) == 0) {
+        if (strchr(appData.first, 46) == NULL) {
             b_num_on_click(".");
         }
     } else {
-        if (strchr(textStruct.second, 46) == NULL) {
+        if (strchr(appData.second, 46) == NULL) {
             b_num_on_click(".");
         }
     }   
@@ -254,9 +254,9 @@ void buttonEqual_onclick() {
                 
     double result = struct_eval();
                 
-    sprintf(textStruct.result,"%f",result);
+    sprintf(appData.result,"%f",result);
     
-    to_s(textStruct, my_string);
+    to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);  
 }
@@ -276,39 +276,39 @@ void buttonSign_onclick() {
     char my_string[124];
     memset(my_string, 0, sizeof(char));
     
-    if (strlen(textStruct.operator) == 0) {
-        if (strchr(textStruct.first, 45) == NULL) {
-            strcpy(my_string, textStruct.first);
-            memset(textStruct.first, 0, sizeof(char));
-            strcat(textStruct.first,"-");
-            strcat(textStruct.first, my_string);
+    if (strlen(appData.operator) == 0) {
+        if (strchr(appData.first, 45) == NULL) {
+            strcpy(my_string, appData.first);
+            memset(appData.first, 0, sizeof(char));
+            strcat(appData.first,"-");
+            strcat(appData.first, my_string);
         } else {
             
-            strcpy(my_string, &textStruct.first[1]);
-            memset(textStruct.first, 0, sizeof(char));
-            strcat(textStruct.first, my_string);      
+            strcpy(my_string, &appData.first[1]);
+            memset(appData.first, 0, sizeof(char));
+            strcat(appData.first, my_string);      
         }
     }
     
     else {
         
-        if (strchr(textStruct.second, 45) == NULL) {
-            strcpy(my_string, textStruct.second);
-            memset(textStruct.second, 0, sizeof(char));
-            strcat(textStruct.second,"-");
-            strcat(textStruct.second, my_string);
+        if (strchr(appData.second, 45) == NULL) {
+            strcpy(my_string, appData.second);
+            memset(appData.second, 0, sizeof(char));
+            strcat(appData.second,"-");
+            strcat(appData.second, my_string);
         } else {
             
-            strcpy(my_string, &textStruct.second[1]);
-            memset(textStruct.second, 0, sizeof(char));
-            strcat(textStruct.second, my_string);      
+            strcpy(my_string, &appData.second[1]);
+            memset(appData.second, 0, sizeof(char));
+            strcat(appData.second, my_string);      
         }
             
     }
     
     memset(my_string, 0, sizeof(char));
     
-    to_s(textStruct, my_string);
+    to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
     
@@ -334,23 +334,27 @@ void buttonFactorial_onclick() {
     char my_string[124];
     memset(my_string, 0, sizeof(char));
     
-    if (strlen(textStruct.result) ==  0) { 
-        if (strlen(textStruct.operator) == 0) { 
+    if (strlen(appData.result) ==  0) { 
+        if (strlen(appData.operator) == 0) { 
             
             char rest[42];
             double result;
     
             void *ptr = &rest;
                 
-            double first = strtol(textStruct.first, ptr, 0);
+            double first = strtol(appData.first, ptr, 0);
             
-            result = lib_factorial(first);
+            if (first > 31) {
+                result = 0;
+            } else {
+                result = lib_factorial(first);
+            }
             
-            sprintf(textStruct.result,"%f",result);
+            sprintf(appData.result,"%f",result);
         }
     }    
         
-    to_s(textStruct, my_string);
+    to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
@@ -360,23 +364,26 @@ void buttonLog_onclick () {
     char my_string[124];
     memset(my_string, 0, sizeof(char));
     
-    if (strlen(textStruct.result) ==  0) { 
-        if (strlen(textStruct.operator) == 0) { 
+    if (strlen(appData.result) ==  0) { 
+        if (strlen(appData.operator) == 0) { 
             
             char rest[42];
             double result;
     
             void *ptr = &rest;
                 
-            double first = strtol(textStruct.first, ptr, 0);
+            double first = strtol(appData.first, ptr, 0);
             
-            result = lib_ln(first);
-            
-            sprintf(textStruct.result,"%f",result);
+            if (first > 99900000) {
+                result = 0;
+            } else {
+                result = lib_ln(first);
+            }
+            sprintf(appData.result,"%f",result);
         }
     }    
         
-    to_s(textStruct, my_string);
+    to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
     
@@ -388,19 +395,19 @@ void buttonCE_onclick() {
     char my_string[124];
     memset(my_string, 0, sizeof(char));
     
-    if (strlen(textStruct.result) ==  0) { 
-        if (strlen(textStruct.operator) == 0) { 
-            memset(textStruct.first, 0, sizeof(char)); 
+    if (strlen(appData.result) ==  0) { 
+        if (strlen(appData.operator) == 0) { 
+            memset(appData.first, 0, sizeof(char)); 
         } else { 
-            memset(textStruct.second, 0, sizeof(char));
+            memset(appData.second, 0, sizeof(char));
         }
     } else {
-        memset(textStruct.first, 0, sizeof(char)); 
-        memset(textStruct.second, 0, sizeof(char)); 
-        memset(textStruct.operator, 0, sizeof(char)); 
-        memset(textStruct.result, 0, sizeof(char));
+        memset(appData.first, 0, sizeof(char)); 
+        memset(appData.second, 0, sizeof(char)); 
+        memset(appData.operator, 0, sizeof(char)); 
+        memset(appData.result, 0, sizeof(char));
     }
-    to_s(textStruct, my_string);
+    to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
@@ -410,12 +417,12 @@ void buttonC_onclick() {
     char my_string[124];
     memset(my_string, 0, sizeof(char));
     
-    memset(textStruct.first, 0, sizeof(char)); 
-    memset(textStruct.second, 0, sizeof(char)); 
-    memset(textStruct.operator, 0, sizeof(char)); 
-    memset(textStruct.result, 0, sizeof(char));    
+    memset(appData.first, 0, sizeof(char)); 
+    memset(appData.second, 0, sizeof(char)); 
+    memset(appData.operator, 0, sizeof(char)); 
+    memset(appData.result, 0, sizeof(char));    
     
-    to_s(textStruct, my_string);
+    to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
