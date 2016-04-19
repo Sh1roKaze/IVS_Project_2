@@ -1,0 +1,13 @@
+CFLAGS = -Wall 
+CC = gcc
+
+all:tests
+
+lib_math.o: lib_math.c lib_math.h
+	$(CC) $(CFLAGS) -c lib_math.c -o lib_math.o -lm
+
+tests: minunit.h lib_math.o
+	$(CC) $(CFLAGS) lib_math.o tests_math.c -o tests -lm 
+
+clean: 
+	rm -f main lib_math.o tests
