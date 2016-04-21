@@ -1,3 +1,12 @@
+/**
+ * @file main.c
+ * @author Jan Verny
+ * @version 0.9
+ *
+ * A calculator implemented using gtk3 and it's own custom math library 'lib_math'. 
+ * This application is developed for school project under GPL v3 license.
+ */
+
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,7 +52,7 @@ typedef struct {
     
 } text_struct;
 
-/* Magic variables */  
+/* Global variables */  
 App *calculator;
 text_struct appData;
 
@@ -64,6 +73,14 @@ text_struct appData;
         strcat(appData.second, value); \
     }\
 }
+
+/**
+* This function converts appData into one string.
+* 
+* @param appData { Struct made of four strings. First, operator, second and result. }
+* @param my_string { Result of conversion. }
+* @return void;
+**/
 
 void to_s (text_struct appData, char *my_string) { 
     if (strlen(appData.result) ==  0) { 
@@ -88,6 +105,12 @@ void to_s (text_struct appData, char *my_string) {
     }
 }
 
+/**
+* Handles click on a numeric button.
+* 
+* @param value {Signals what button was pushed. Values in range 0 - 9.}
+* @return void;
+**/
 
 void b_num_on_click(char *value) {
     
@@ -100,6 +123,13 @@ void b_num_on_click(char *value) {
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 } 
+
+/**
+* Evaluates result from appData.
+* 
+* @post Returns zero if operator is not supported.
+* @return Result of the correct operation on first and second;
+**/
 
 double struct_eval () {
     
@@ -142,6 +172,12 @@ double struct_eval () {
     return result; 
 }
 
+/**
+* Handles click on an operator button.
+* 
+* @param value { Signals what button was pushed. }
+* @return void;
+**/
 
 void b_oper_on_click(char *value) {
     
@@ -311,7 +347,6 @@ void buttonSign_onclick() {
     to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
-    
 }
 
 void buttonMultiply_onclick() {
@@ -386,7 +421,6 @@ void buttonLog_onclick () {
     to_s(appData, my_string);
     
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);    
-    
 }
 
 
@@ -430,19 +464,19 @@ void buttonC_onclick() {
 
 int main (int argc, char **argv) {
   
-  //variables  
+  //Gtk builder variable  
   GtkBuilder *calcBuilder;
   
-  //allocates mem for an App
+  //allocates memory for an App
   calculator = g_slice_new(App);
 
-  //inits gtk
+  //inits gtk, only consumes gtk specific arguments
   gtk_init (&argc, &argv);
   
-  //inits interface builder
+  //inits interface builder from file
   calcBuilder = gtk_builder_new_from_file("interface.glade");
   
-  //link the objects created by builder to the "calculator" structure
+  //links the objects created by builder to the "calculator" structure
   calculator->window_main = GTK_WIDGET(gtk_builder_get_object (calcBuilder, "window_main"));
   calculator->textbuffer = GTK_TEXT_BUFFER(gtk_builder_get_object (calcBuilder, "textbuffer"));
   
@@ -473,12 +507,13 @@ int main (int argc, char **argv) {
   //connects signals
   gtk_builder_connect_signals (calcBuilder, calculator);
 
-  //frees calcBuilder
+  //severs connection between builder objects and builder
   g_object_unref (G_OBJECT (calcBuilder));
   
   //connects signal for destruction with window_main  
   g_signal_connect(calculator->window_main, "destroy", G_CALLBACK(gtk_main_quit), NULL);
   
+  //connects clicked signal with the corresponding button handler.
   g_signal_connect(calculator->button0, "clicked", G_CALLBACK(button0_onclick), NULL);
   g_signal_connect(calculator->button1, "clicked", G_CALLBACK(button1_onclick), NULL);
   g_signal_connect(calculator->button2, "clicked", G_CALLBACK(button2_onclick), NULL);
@@ -502,9 +537,7 @@ int main (int argc, char **argv) {
   g_signal_connect(calculator->buttonLog, "clicked", G_CALLBACK(buttonLog_onclick), NULL);  g_signal_connect(calculator->buttonCE, "clicked", G_CALLBACK(buttonCE_onclick), NULL);
   g_signal_connect(calculator->buttonC, "clicked", G_CALLBACK(buttonC_onclick), NULL);
   
-  gtk_text_buffer_set_text (calculator->textbuffer, "\n", -1);
-  
-  //bring window into spotlight
+  //brings window into spotlight
   gtk_widget_show (calculator->window_main);                
 
   //main gtk loop
