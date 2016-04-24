@@ -1,0 +1,15 @@
+Source: calc420
+Section: math
+Priority: extra
+Maintainer: Dominik Valachovic <xvalac@fit.vutbr.cz>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://wis.fit.vutbr.cz/FIT/st/cgroup.php.cs?id=18&team=2744
+#Vcs-Git: git://git.debian.org/collab-maint/calc420.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/calc420.git;a=summary
+
+Package: calc420
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Simple calculator
+ This calculator allows you to perform basic math operations.
