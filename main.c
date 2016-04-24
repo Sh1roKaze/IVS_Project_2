@@ -623,7 +623,7 @@ int main (int argc, char **argv) {
   g_signal_connect(calculator->buttonLog, "clicked", G_CALLBACK(buttonLog_onclick), NULL);  g_signal_connect(calculator->buttonCE, "clicked", G_CALLBACK(buttonCE_onclick), NULL);
   g_signal_connect(calculator->buttonC, "clicked", G_CALLBACK(buttonC_onclick), NULL);
   
-  //GDK test 
+  //connects key-release-event to function key_event
   g_signal_connect(calculator->window_main, "key-release-event", G_CALLBACK(key_event), NULL);
   
   //brings window into spotlight
