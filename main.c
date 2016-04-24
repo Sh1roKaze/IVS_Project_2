@@ -505,6 +505,12 @@ static gboolean key_event(GtkWidget *widget, GdkEventKey *event) {
         case GDK_KEY_KP_9 :
             button9_onclick();
             break;
+            
+        case GDK_KEY_comma :
+        case GDK_KEY_period :  
+        case GDK_KEY_KP_Decimal :
+            buttonDot_onclick();
+            break;    
         
         case GDK_KEY_KP_Add :
             buttonPlus_onclick();
