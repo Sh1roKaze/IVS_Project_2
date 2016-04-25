@@ -8,8 +8,10 @@
  */
 
 #include <gtk/gtk.h>
+#include <gdk/gdk.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "lib_math.h"
 
 typedef struct {
@@ -461,6 +463,102 @@ void buttonC_onclick() {
     gtk_text_buffer_set_text (calculator->textbuffer, my_string, -1);
 }
 
+static gboolean key_event(GtkWidget *widget, GdkEventKey *event) {
+    
+    char cwd[1024];
+    char xdg_open[1024];
+    
+    switch (event->keyval) {
+        
+        case GDK_KEY_KP_0 :
+            button0_onclick();
+            break;
+        
+        case GDK_KEY_KP_1 :
+            button1_onclick();
+            break;
+            
+        case GDK_KEY_KP_2 :
+            button2_onclick();
+            break;
+            
+        case GDK_KEY_KP_3 :
+            button3_onclick();
+            break;
+            
+        case GDK_KEY_KP_4 :
+            button4_onclick();
+            break;
+            
+        case GDK_KEY_KP_5 :
+            button5_onclick();
+            break;
+            
+        case GDK_KEY_KP_6 :
+            button6_onclick();
+            break;     
+            
+        case GDK_KEY_KP_7 :
+            button7_onclick();
+            break;     
+            
+        case GDK_KEY_KP_8 :
+            button8_onclick();
+            break;
+            
+        case GDK_KEY_KP_9 :
+            button9_onclick();
+            break;
+            
+        case GDK_KEY_comma :
+        case GDK_KEY_period :  
+        case GDK_KEY_KP_Decimal :
+            buttonDot_onclick();
+            break;    
+        
+        case GDK_KEY_KP_Add :
+            buttonPlus_onclick();
+            break;
+            
+        case GDK_KEY_KP_Subtract :
+            buttonMinus_onclick();
+            break;
+            
+        case GDK_KEY_KP_Multiply :
+            buttonMultiply_onclick();
+            break;
+            
+        case GDK_KEY_KP_Divide :
+            buttonDivide_onclick();
+            break;     
+            
+        case GDK_KEY_Return :
+        case GDK_KEY_KP_Enter :
+            buttonEqual_onclick();
+            break;     
+        
+        case GDK_KEY_BackSpace :
+            buttonCE_onclick();
+            break;    
+            
+        case GDK_KEY_Delete :
+            buttonC_onclick();
+            break;
+        
+        //opens help
+        case GDK_KEY_F1 :
+            getcwd(cwd, sizeof(cwd));
+            strcat(cwd, "/help.pdf");
+            strcat(xdg_open, "xdg-open ");
+            strcat(xdg_open, cwd);            
+            system(xdg_open);
+            
+        default: break;
+    }
+    
+    return TRUE;
+}
+
 
 int main (int argc, char **argv) {
   
@@ -536,6 +634,9 @@ int main (int argc, char **argv) {
   g_signal_connect(calculator->buttonFactorial, "clicked", G_CALLBACK(buttonFactorial_onclick), NULL);
   g_signal_connect(calculator->buttonLog, "clicked", G_CALLBACK(buttonLog_onclick), NULL);  g_signal_connect(calculator->buttonCE, "clicked", G_CALLBACK(buttonCE_onclick), NULL);
   g_signal_connect(calculator->buttonC, "clicked", G_CALLBACK(buttonC_onclick), NULL);
+  
+  //connects key-release-event to function key_event
+  g_signal_connect(calculator->window_main, "key-release-event", G_CALLBACK(key_event), NULL);
   
   //brings window into spotlight
   gtk_widget_show (calculator->window_main);                
