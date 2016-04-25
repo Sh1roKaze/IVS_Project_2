@@ -11,6 +11,7 @@
 #include <gdk/gdk.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include "lib_math.h"
 
 typedef struct {
@@ -464,6 +465,9 @@ void buttonC_onclick() {
 
 static gboolean key_event(GtkWidget *widget, GdkEventKey *event) {
     
+    char cwd[1024];
+    char xdg_open[1024];
+    
     switch (event->keyval) {
         
         case GDK_KEY_KP_0 :
@@ -540,6 +544,14 @@ static gboolean key_event(GtkWidget *widget, GdkEventKey *event) {
         case GDK_KEY_Delete :
             buttonC_onclick();
             break;
+        
+        //opens help
+        case GDK_KEY_F1 :
+            getcwd(cwd, sizeof(cwd));
+            strcat(cwd, "/help.pdf");
+            strcat(xdg_open, "xdg-open ");
+            strcat(xdg_open, cwd);            
+            system(xdg_open);
             
         default: break;
     }
