@@ -1,0 +1,31 @@
+Format: 1.8
+Date: Sun, 24 Apr 2016 05:55:15 +0200
+Source: calc420
+Binary: calc420
+Architecture: source amd64
+Version: 1.0-1
+Distribution: unstable
+Urgency: low
+Maintainer: Dominik Valachovic <xvalac@fit.vutbr.cz>
+Changed-By: domvala <xvalac@fit.vutbr.cz>
+Description: 
+ calc420    - Simple calculator
+Changes: 
+ calc420 (1.0-1) unstable; urgency=low
+ .
+   * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+Checksums-Sha1: 
+ 6023c24d3d1287be8d62a2bf69b2583b476645ce 830 calc420_1.0-1.dsc
+ bad979ff88e0fe8695f374e4a5ded648a980c511 142919 calc420_1.0.orig.tar.gz
+ 574d688f4a0742d804f9dddecfbadafa2aff2b6c 1768 calc420_1.0-1.debian.tar.gz
+ da7f02abf490a40b70c68d0cfc8b24eca5719e1b 139434 calc420_1.0-1_amd64.deb
+Checksums-Sha256: 
+ d8dc3d6e402e764b0ce1efa9d18f34a0ff08078daa9ac4bd3ee9bc712f3ef562 830 calc420_1.0-1.dsc
+ 1cf2ad8d4c15769649f78fd3be40bcb42a958f0d5769d6aef6e3d47c24ca3647 142919 calc420_1.0.orig.tar.gz
+ 21080ad236f026a589548147ba0e5fabd27cb4a3d1b5f36b4b95951d10077cfa 1768 calc420_1.0-1.debian.tar.gz
+ 593e77ef2bcea32c6f9e4c2cb1fcf0547c9372c26b70837be9f31397710f70b6 139434 calc420_1.0-1_amd64.deb
+Files: 
+ 3fc95a3d33d1b66da6aea985bb0fe7a4 830 math extra calc420_1.0-1.dsc
+ bee0af54f9b433080f7f455d983dbfe7 142919 math extra calc420_1.0.orig.tar.gz
+ c46b1deb268d7927356482ae61272fb4 1768 math extra calc420_1.0-1.debian.tar.gz
+ 0c97c61a28cc48e291b29335acd17af0 139434 math extra calc420_1.0-1_amd64.deb

@@ -1,0 +1,10 @@
+Package: calc420
+Version: 1.0-1
+Architecture: amd64
+Maintainer: Dominik Valachovic <xvalac@fit.vutbr.cz>
+Installed-Size: 239
+Section: math
+Priority: extra
+Homepage: https://wis.fit.vutbr.cz/FIT/st/cgroup.php.cs?id=18&team=2744
+Description: Simple calculator
+ This calculator allows you to perform basic math operations.

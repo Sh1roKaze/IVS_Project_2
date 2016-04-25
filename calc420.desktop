@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Calc420
+Comment=Simple calculator
+Exec=/usr/bin/calc420
+Icon=accessories-calculator
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;Utility;Calculator;
